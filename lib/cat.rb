@@ -13,4 +13,10 @@ class Cat
   def self.all
     @@all
   end
+
+  def owner_name=(name)
+   owner = Owner.find_or_create_by_name(name)
+   self.owner = owner
+   owner.buy_cat(self)
+  end
 end
