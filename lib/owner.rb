@@ -3,14 +3,13 @@ class Owner
   attr_reader :name, :species
 
  @@all = []
- @@pets = {:dogs => [], :cats => []}
-
+ # @@pets = { :dogs => [], :cats => [] }
   def initialize(name, species= "human")
     @name = name
     @species = species
     @@all << self
-    # @pets = {:cats => [], :dogs => []}
-    end
+    @@pets = { :dogs => [], :cats => [] }
+  end
 
   def species
     @species
@@ -33,7 +32,8 @@ class Owner
   end
 
   def pets
-    @@pets
+    @@pets[:cats] << cats
+    @@pets[:dogs] << dogs
   end
 
   def cats
@@ -57,24 +57,30 @@ class Owner
   end
 
   def walk_dogs
-    @@pets[:dogs].each do |dog|
+      Dog.all.select do |dog|
       dog.mood = "happy"
     end
   end
 
   def feed_cats
-    @@pets[:cats].each do |cat|
-      cat.mood= "happy"
+    Cat.all.select do |cat|
+    cat.mood = "happy"
     end
   end
 
   def sell_pets
-    pets.each do |pet, arr|
-      arr.map do |pet|
-        pet.mood= "nervous"
-      end
-      arr.clear
+    Dog.all.select do |dog|
+      dog.mood = "nervous"
+      dog.owner = nil
     end
-  end
+    Cat.all.select do |cat|
+      cat.mood = "nervous"
+      cat.owner = nil
+    end
+ end
+
+ def list_pets
+   "I have #{@@pets[:dogs].count} dog(s), and #{@@pets[:cats].count} cat(s)."
+    end
 
 end
