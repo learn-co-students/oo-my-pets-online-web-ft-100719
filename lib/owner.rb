@@ -59,10 +59,9 @@ def feed_cats
 end
 
 def sell_pets
-    pets.each do |type, pets|
-      pets.map! {|pet| pet.mood = "nervous"}
+    @pets.each do |type, array|
+      array.map! {|pet| pet.mood = "nervous"}
     end
-    pets.clear
   end
 
 end
