@@ -1,14 +1,16 @@
 class Owner
-  attr_accessor :pets, :cat
+  attr_accessor :pets, :cat, :dog
   attr_reader :name, :species
+
  @@all = []
+ @@pets = {:dogs => [], :cats => []}
 
   def initialize(name, species= "human")
     @name = name
     @species = species
     @@all << self
-    @pets = {:cats => [], :dogs => []}
-  end
+    # @pets = {:cats => [], :dogs => []}
+    end
 
   def species
     @species
@@ -18,49 +20,60 @@ class Owner
     return "I am a #{species}."
   end
 
-def self.all
-  @@all
-end
-
-def self.count
-  @@all.length
-end
-
-def self.reset_all
-  @@all.clear
-end
-
-def cats
-  Cat.all.select do |cat|
-    cat.owner == self
+  def self.all
+    @@all
   end
-end
 
-def dogs
-  Dog.all.select do |dog|
-    dog.owner == self
+  def self.count
+    @@all.length
   end
-end
 
-def buy_cat(name)
-  @pets[:cats] << Cat.new(name, owner = self)
-end
+  def self.reset_all
+    @@all.clear
+  end
 
-def buy_dog(name)
-  @pets[:dogs] << Dog.new(name, owner = self)
-end
+  def pets
+    @@pets
+  end
 
-def walk_dogs
-  dogs.map! {|dog| dog.mood = "happy"}
-end
+  def cats
+    Cat.all.select do |cat|
+      cat.owner == self
+    end
+  end
 
-def feed_cats
-  cats.map! {|cat| cat.mood = "happy"}
-end
+  def dogs
+    Dog.all.select do |dog|
+      dog.owner == self
+    end
+  end
 
-def sell_pets
-    @pets.each do |type, array|
-      array.map! {|pet| pet.mood = "nervous"}
+  def buy_cat(name)
+    @@pets[:cats] << Cat.new(name, owner = self)
+  end
+
+  def buy_dog(name)
+    @@pets[:dogs] << Dog.new(name, owner = self)
+  end
+
+  def walk_dogs
+    @@pets[:dogs].each do |dog|
+      dog.mood = "happy"
+    end
+  end
+
+  def feed_cats
+    @@pets[:cats].each do |cat|
+      cat.mood= "happy"
+    end
+  end
+
+  def sell_pets
+    pets.each do |pet, arr|
+      arr.map do |pet|
+        pet.mood= "nervous"
+      end
+      arr.clear
     end
   end
 
