@@ -14,10 +14,6 @@ class Owner
     @species
   end
 
-  # def pets
-  #   @@pets
-  # end
-
   def say_species
     return "I am a #{species}."
   end
@@ -55,9 +51,18 @@ def buy_dog(name)
 end
 
 def walk_dogs
-  @pets[:dogs].each do |dog|
-     dog.mood = "happy"
-  end
+  dogs.map! {|dog| dog.mood = "happy"}
+end
+
+def feed_cats
+  cats.map! {|cat| cat.mood = "happy"}
+end
+
+def sell_pets
+    pets.each do |pet, arr|
+      arr.map! {|pet| pet.mood = "nervous"}
+    end
+      pets.clear
 end
 
 end
