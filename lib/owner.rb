@@ -1,14 +1,15 @@
+require "pry"
+
 class Owner
   attr_accessor :pets, :cat, :dog
   attr_reader :name, :species
 
  @@all = []
- # @@pets = { :dogs => [], :cats => [] }
+
   def initialize(name, species= "human")
     @name = name
     @species = species
     @@all << self
-    @@pets = { :dogs => [], :cats => [] }
   end
 
   def species
@@ -31,10 +32,6 @@ class Owner
     @@all.clear
   end
 
-  def pets
-    @@pets[:cats] << cats
-    @@pets[:dogs] << dogs
-  end
 
   def cats
     Cat.all.select do |cat|
@@ -49,38 +46,36 @@ class Owner
   end
 
   def buy_cat(name)
-    @@pets[:cats] << Cat.new(name, owner = self)
+    Cat.new(name, self)
   end
 
   def buy_dog(name)
-    @@pets[:dogs] << Dog.new(name, owner = self)
+   Dog.new(name, self)
   end
 
   def walk_dogs
-      Dog.all.select do |dog|
-      dog.mood = "happy"
+    #binding.pry
+    dogs.each do |dog|
+        dog.mood = "happy"
     end
   end
 
   def feed_cats
-    Cat.all.select do |cat|
+    cats.each do |cat|
     cat.mood = "happy"
     end
   end
 
   def sell_pets
-    Dog.all.select do |dog|
-      dog.mood = "nervous"
-      dog.owner = nil
-    end
-    Cat.all.select do |cat|
-      cat.mood = "nervous"
-      cat.owner = nil
+    pets = cats + dogs
+    pets.each do |sell|
+      sell.mood = "nervous"
+      sell.owner = nil
     end
  end
 
  def list_pets
-   "I have #{@@pets[:dogs].count} dog(s), and #{@@pets[:cats].count} cat(s)."
-    end
+   "I have #{self.dogs.count} dog(s), and #{self.cats.count} cat(s)."
+ end
 
 end
