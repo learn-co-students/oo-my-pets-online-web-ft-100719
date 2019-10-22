@@ -28,7 +28,7 @@ describe Cat do
       expect { @cat.name = "Mr. Whiskers" }.to raise_error NoMethodError
     end
 
-    it "initializes with a nervous mood" do
+    it "initializes with a nqervous mood" do
       expect(@cat.mood).to eq("nervous")
     end
 
